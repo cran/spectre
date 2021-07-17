@@ -33,8 +33,9 @@ MinConf::MinConf(const std::vector<unsigned> &alpha_list,
     commonness[site].resize(n_sites, NA);
 
     // convert target matrix to a more convenient format
-    this->target[site].resize(n_sites);
-    for (unsigned other_site = 0; other_site < n_sites; other_site++) {
+    this->target[site].resize(n_sites, NA);
+    // iterate over the upper triagonal matrix, only (w/o diagonal)
+    for (unsigned other_site = site + 1; other_site < n_sites; other_site++) {
       if (target[other_site * n_sites + site] == NA) {
         this->target[site][other_site] = NA;
       } else {
@@ -318,12 +319,13 @@ void MinConf::update_solution_commonness() {
 unsigned MinConf::calc_error() {
   unsigned sum_diff = 0;
   for (unsigned site = 0; site < n_sites; site++) {
-    for (unsigned other_site = 0; other_site < n_sites; other_site++) {
+    for (unsigned other_site = site + 1; other_site < n_sites; other_site++) {
       if (target[site][other_site] == NA) {
         continue;
       }
-      sum_diff +=
+      auto tmp =
           std::abs(commonness[site][other_site] - target[site][other_site]);
+      sum_diff += tmp;
     }
   }
   return sum_diff;
