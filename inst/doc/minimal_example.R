@@ -1,13 +1,13 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  install.packages("spectre")
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  install.packages("devtools")
 #  devtools::install_github("r-spatialecology/spectre")
 
@@ -20,7 +20,7 @@ alpha_list <- minimal_example_data$alpha_list # richness
 beta_list <- minimal_example_data$beta_list # Bray-Curtis dissimilarity
 total_gamma <- dim(minimal_example_data$species_list)[1] # 20 species
 
-## ---- message = FALSE, warning = FALSE----------------------------------------
+## ----message = FALSE, warning = FALSE-----------------------------------------
 library("spectre")
 
 objective_matrix <- spectre::generate_commonness_matrix_from_gdm(gdm_predictions = beta_list, 
@@ -33,10 +33,10 @@ res <- spectre::run_optimization_min_conf(alpha_list = alpha_list,
                                           max_iterations = 1000, # n iterations
                                           seed = 123) # use a random seed for reproducibility
 
-## ---- message = FALSE---------------------------------------------------------
+## ----message = FALSE----------------------------------------------------------
 error_c <- spectre::calc_commonness_error(x = res, objective_matrix = objective_matrix)
 
-## ---- include = TRUE, out.width="50%", fig.align="center"---------------------
+## ----include = TRUE, out.width="50%", fig.align="center"----------------------
 # With an increasing number of iterations, the solution matrix improved
 spectre::plot_error(x = res)
 

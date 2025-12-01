@@ -12,31 +12,45 @@
 
 <meta name="author" content="C.E. Simpkins, S. Hanss, M. Hesselbarth, M.C. Spangenberg, J. Salecker and K. Wiegand" />
 
-<meta name="date" content="2021-07-16" />
+<meta name="date" content="2025-12-01" />
 
 <title>Getting started with spectre</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -52,55 +66,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -109,13 +122,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -127,7 +147,187 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -139,73 +339,126 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<h1 class="title toc-ignore">Getting started with <code>spectre</code></h1>
-<h4 class="author">C.E. Simpkins, S. Hanss, M. Hesselbarth, M.C. Spangenberg, J. Salecker and K. Wiegand</h4>
-<h4 class="date">2021-07-16</h4>
+<h1 class="title toc-ignore">Getting started with
+<code>spectre</code></h1>
+<h4 class="author">C.E. Simpkins, S. Hanss, M. Hesselbarth, M.C.
+Spangenberg, J. Salecker and K. Wiegand</h4>
+<h4 class="date">2025-12-01</h4>
 
 
 
 <div id="general-background" class="section level2">
 <h2>General background</h2>
-<p><code>spectre</code> is an <code>R</code> package which easily implements an advanced optimization algorithm capable of predicting regional community composition at fine spatial resolutions using only sparse biological and environmental data. The algorithm underlying <code>spectre</code> utilizes estimates of <span class="math inline">\(\alpha\)</span>-diversity (i.e. species richness) and <span class="math inline">\(\beta\)</span>-diversity (i.e. species dissimilarity) to come up with community composition estimates for all patches within a target region. The method used in <code>spectre</code> is an adapted version of that presented by Mokany et al. (2011).</p>
+<p><code>spectre</code> is an <code>R</code> package which easily
+implements an advanced optimization algorithm capable of predicting
+regional community composition at fine spatial resolutions using only
+sparse biological and environmental data. The algorithm underlying
+<code>spectre</code> utilizes estimates of <span class="math inline">\(\alpha\)</span>-diversity (i.e. species richness)
+and <span class="math inline">\(\beta\)</span>-diversity (i.e. species
+dissimilarity) to come up with community composition estimates for all
+patches within a target region. The method used in <code>spectre</code>
+is an adapted version of that presented by Mokany et al. (2011).</p>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
 <p>Install the release version from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;spectre&quot;</span>)</span></code></pre></div>
-<p>To install the developmental version of <code>spectre</code>, use:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;r-spatialecology/spectre&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;spectre&quot;</span>)</span></code></pre></div>
+<p>To install the developmental version of <code>spectre</code>,
+use:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;r-spatialecology/spectre&quot;</span>)</span></code></pre></div>
 </div>
 <div id="use-case-example" class="section level2">
 <h2>Use case example</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spectre)</span></code></pre></div>
-<p>This example acts as a minimal working case and uses simple “simulated” data matching the structure of that needed by the relevant functions. This simple example is used to minimize the time and data storage requirements needed to run this vignette.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(spectre)</span></code></pre></div>
+<p>This example acts as a minimal working case and uses simple
+“simulated” data matching the structure of that needed by the relevant
+functions. This simple example is used to minimize the time and data
+storage requirements needed to run this vignette.</p>
 <div id="generating-input-data" class="section level3">
 <h3>Generating input data</h3>
-<p>The first step in using the <code>spectre</code> package is to gather estimates for <span class="math inline">\(\alpha\)</span>-biodiversity and <span class="math inline">\(\beta\)</span>-biodiversity (in the form of Bray-Curtis dissimilarity) for the area of interest at the desired outcome resolution.</p>
-<p>For this example, we created a random species composition (15 sites, gamma diversity = 20) and calculated i) an <span class="math inline">\(\alpha\)</span>-diversity estimate and ii) a Bray-Curtis dissimilarity estimate in the output format of the <code>gdm</code> package (Fitzpatrick et al. 2021). Both are used as input for the <code>spectre</code> algorithm, please see <code>R/generate_minimal_example_data.R</code> for details.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load &quot;observed&quot; alpha-, beta- and gamma-diversity values of the random species composition</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>alpha_list <span class="ot">&lt;-</span> minimal_example_data<span class="sc">$</span>alpha_list <span class="co"># richness</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>beta_list <span class="ot">&lt;-</span> minimal_example_data<span class="sc">$</span>beta_list <span class="co"># Bray-Curtis dissimilarity</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>total_gamma <span class="ot">&lt;-</span> <span class="fu">dim</span>(minimal_example_data<span class="sc">$</span>species_list)[<span class="dv">1</span>] <span class="co"># 20 species</span></span></code></pre></div>
+<p>The first step in using the <code>spectre</code> package is to gather
+estimates for <span class="math inline">\(\alpha\)</span>-biodiversity
+and <span class="math inline">\(\beta\)</span>-biodiversity (in the form
+of Bray-Curtis dissimilarity) for the area of interest at the desired
+outcome resolution.</p>
+<p>For this example, we created a random species composition (15 sites,
+gamma diversity = 20) and calculated i) an <span class="math inline">\(\alpha\)</span>-diversity estimate and ii) a
+Bray-Curtis dissimilarity estimate in the output format of the
+<code>gdm</code> package (Fitzpatrick et al. 2021). Both are used as
+input for the <code>spectre</code> algorithm, please see
+<code>R/generate_minimal_example_data.R</code> for details.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># load &quot;observed&quot; alpha-, beta- and gamma-diversity values of the random species composition</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>alpha_list <span class="ot">&lt;-</span> minimal_example_data<span class="sc">$</span>alpha_list <span class="co"># richness</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>beta_list <span class="ot">&lt;-</span> minimal_example_data<span class="sc">$</span>beta_list <span class="co"># Bray-Curtis dissimilarity</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>total_gamma <span class="ot">&lt;-</span> <span class="fu">dim</span>(minimal_example_data<span class="sc">$</span>species_list)[<span class="dv">1</span>] <span class="co"># 20 species</span></span></code></pre></div>
 </div>
 <div id="running-the-optimization" class="section level3">
 <h3>Running the optimization</h3>
-<p>We use the input estimates (<span class="math inline">\(\alpha\)</span>-diversity and Bray-Curtis dissimilarity) to generate a commonness matrix (i.e. species in common between each site by site pair) using the <code>generate_commonness_matrix_from_gdm()</code> function. This commonness matrix acts as the objective function (i.e. target) for the optimization algorithm.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate objective_matrix from (modelled) alpha-diversity and Bray-Curtis dissimilarity</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>objective_matrix <span class="ot">&lt;-</span> spectre<span class="sc">::</span><span class="fu">generate_commonness_matrix_from_gdm</span>(</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">gdm_predictions =</span> beta_list, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha_list =</span> alpha_list)</span></code></pre></div>
-<p>Once the input estimates and objective function have been obtained the optimization algorithm is straightforward in <code>spectre</code>, requiring only one function call. Note though that the run time for this function may be high especially for large landscapes with high species diversity and if <code>max_iterations</code> is high.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> spectre<span class="sc">::</span><span class="fu">run_optimization_min_conf</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha_list =</span> alpha_list,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">total_gamma =</span> total_gamma,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> objective_matrix,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_iterations =</span> <span class="dv">1000</span>) <span class="co"># n iterations</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  &gt; Optimization finished with lowest absolute error = 7 (highest absolute error was: 103 improved by: 96)</span></span></code></pre></div>
+<p>We use the input estimates (<span class="math inline">\(\alpha\)</span>-diversity and Bray-Curtis
+dissimilarity) to generate a commonness matrix (i.e. species in common
+between each site by site pair) using the
+<code>generate_commonness_matrix_from_gdm()</code> function. This
+commonness matrix acts as the objective function (i.e. target) for the
+optimization algorithm.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Calculate objective_matrix from (modelled) alpha-diversity and Bray-Curtis dissimilarity</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>objective_matrix <span class="ot">&lt;-</span> spectre<span class="sc">::</span><span class="fu">generate_commonness_matrix_from_gdm</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">gdm_predictions =</span> beta_list, </span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">alpha_list =</span> alpha_list)</span></code></pre></div>
+<p>Once the input estimates and objective function have been obtained
+the optimization algorithm is straightforward in <code>spectre</code>,
+requiring only one function call. Note though that the run time for this
+function may be high especially for large landscapes with high species
+diversity and if <code>max_iterations</code> is high.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> spectre<span class="sc">::</span><span class="fu">run_optimization_min_conf</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">alpha_list =</span> alpha_list,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">total_gamma =</span> total_gamma,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">target =</span> objective_matrix,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">max_iterations =</span> <span class="dv">1000</span>) <span class="co"># n iterations</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt;  &gt; Optimization finished with lowest absolute error = 9 (highest absolute error was: 102 improved by: 93)</span></span></code></pre></div>
 </div>
 <div id="result-analysis" class="section level3">
 <h3>Result analysis</h3>
-<p><code>spectre</code> incorporates functions to allow for easy calculation of certain error metrics, namely the mean absolute commonness error (<span class="math inline">\(MAE_c\)</span>) and the relative commonness error (<span class="math inline">\(\% RCE\)</span>). <span class="math inline">\(MAE_c\)</span> is the mean of the absolute difference between the solved <em>solution matrix</em> and the <em>objective function</em>, whereas <span class="math inline">\(\% RCE\)</span> is the <span class="math inline">\(MAE_c\)</span> over the absolute commonness from the <em>objective function</em> represented as a percentage.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>error_c <span class="ot">&lt;-</span> spectre<span class="sc">::</span><span class="fu">calc_commonness_error</span>(<span class="at">x =</span> res, <span class="at">objective_matrix =</span> objective_matrix)</span></code></pre></div>
-<p>The <em>objective function</em> had a mean commonness of 1.75. The mean absolute error between the <em>objective function</em> and the solved <em>solution matrix</em> was 0.07. The solution matrix had an relative commonness error (RCE) of 3.8%.</p>
-<p>These results can be visualized in two ways using functions built into the package. First, one can plot the error of the solved <em>solution matrix</em> over time. Second, the commonness error between the final solved <em>solution matrix</em> and the <em>objective function</em> for each patch can be plotted</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With an increasing number of iterations, the solution matrix improved</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>spectre<span class="sc">::</span><span class="fu">plot_error</span>(<span class="at">x =</span> res)</span></code></pre></div>
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAAqFBMVEUAAAAAADoAAGYAOpAAZrYzMzM6AAA6ADo6AGY6kNtNTU1NTW5NTY5NbqtNjshmAABmtv9uTU1uTW5uTY5ubqtuq+SOTU2OTW6OTY6OyP+QOgCQkDqQtpCQ27aQ2/+rbk2rbm6rbo6ryKur5P+2ZgC22/+2///Ijk3I///bkDrb///kq27k////tmb/yI7/25D/27b/29v/5Kv//7b//8j//9v//+T////Po+zxAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAHE0lEQVR4nO2dD1ubRgCHY62ualvdWl3tNt3azRhrki1G+f7fbHdAEBLI7/iXwPG+z2MxgR+Xez0OsB43CmAro31/gK6DIAGCBAgSIEiAIEE1QQPSiiABggQIEiBIgCABggQIEiBIgCABggR1BXmvCkECBAm2VnDx6T4IllenHx6TxUbKd0Pb6jc7fX8fvNxeBz8+rhabqQELGp99My1o+eXetqR4sZkasKDoEFt8fgyWv36PF+bNIwOCIqyg2YfQTLzYTA1e0EYLWksNXhB90BaskZfby+gsdslZbAOugxq4WUWQSCFIpBAkUggSKQSJFIJECkEihSCRQpBIIUikECRSCBIpBIkUgkRq5Lmh+v83jyCRQpBIIUikECRSCBIpBIkUgkQKQSKFIJFCkEghSKQQJFIIEikEiRSCRApBIoUgkUKQSCFIpBAkUggSKQSJFIJECkEihSCRQpBIIUikECRSnv/1Qn1BnjchBAkQJJC1+3FquQ6X73NGHA5ekMWO6B1fF6UQZAfzvvz5PfUOgjLYsarLq/BACzbGzSMoGg2++CXdihCUZpYM5k36IQSlGV8m3yEoh+jAss3o5S9O8znED6Qw10FnyYkMQWVSCBIpBIkUgkQKQSKFIJFCkEghSKQQJFIIEikEiRSCVMprQwgSIEiAIAGCBAgSIEiAIAGCBAgSIEiAIEG6cs9fLyqkBiTo6RxBG2QqNzl8qJAajqCn81HIm7syqQEJqppCkEgNSNDEHmEnZVPDETSxvc/TuTY0UEHxaX5KJ52iCUFeG2riEBuOoIqd9IAEVUwNRVDVm9XBCKp6szoYQVVvVgcjqOrN6mAEVU4NRRCddA500gI6aQGdtIBOWtCMII8NJVULe+jwNx1rv+6IB8wXzbOa+9ojtKBoHGbhfPO5rz1CCoqHOhfO9Zz72iOkoHjAfOF889m9+IcUFA+YL5xvPve1R+g+yDK+LpxvPve1R7gKog9aXUavX0nHA+YL55vPfe0RumrxgPnBXwfVSiFIpBAkUggSKY/vVpsR5HETQpAAQYKmBI187YYaElR5T50HQQIECRAkQJAAQYIGBflpqDlBnjYhBAkQJECQoEFBfhpCkABBAgQJECRAkABBAgQJECRoVJCPhpoU5GUTQpAAQYJmBXloqFFBPjYhBAkQJECQAEECBAkQJECQAEECBAkaFuTfzUazgjxsQwgSNC7IN0O6Poufw1mwi+ebL7vDfiHrYweq2oG9xfPNl9xhz5D1mdlxmOPrLfPNl9xhz3Cqj2lFW+abX9uhZ72QS23sgN4t881X2WV/cKjN8mo1n3r+dOoVdtkjXM5iSfeMoBxiP1vmmy+9y14ha2Ovf2z3XDzffOld9oqmr6Qr77KrtCHIqxN9C4L8akPtCPKoEbUiqPJ+O0hrgiIq7b1TtCWozt47RcuC1qhU2H5pV1Azsb2CIMFuBfXQ0E4F9bEJIUiAIAGCBAgSIEiAIAGCBDsW1L/7sd0KqhfdC7sX1LPb+p0LaiS/Q/YjaOMXRQXULaYB9iSoU8VsBUECBAkQJOi2oA701p0WtLfyahe9c0H7uwLoh6A9foLeCmqQ7QVV+3iVUh0FQYqtjQlBAgQJECRAkABBAgQJECRAkABBAgQJKgpKOKpwc7ijTL1i6gl65ai7mWaKQZDIIEhkBtTdVgNBAgQJECRAkKCWoMwU64rsY3bcotmNXTKpUezOxSw+3QdrZbzm6gh6uTUf5KPjxtnH7DhGMxs7F2cfglCimJk1mS0jlasjaPnlPrLvQvYxO27R7MauxdkfRYlixmffzBbZMlK5OoIWnx/DT+PM62N23KLZjV2Lsz/6UsVYFdkyUrk6gmxTLiMo9Zgdt2h2Y8fiwk3KFWMEZctI5XbYgtKP2SkRTTZ2zMySXtm1mNZaUKk+KPuYnRLRZGPHzPgy+c6xmEVbfZA9ZJzPYtnH7LhFsxu7ZaLuuVQxVkW2jFRuZ9dBa4/Zcb4OSm3slImPjDLFtHYdNAgQJECQAEECBAkQJOiOoPlPN8G//xSsNCvs+j3QKUGFDvYkx4IgQZcE/X48Gp0Ez19Hozd3wfzdb2YxN2+NTuy/J1aSXfd2temF+cauvmj1Y3VJ0E3kwBiYHD7Mj83y6dzUfmI8mRXmy66zX/Pjw4fV2+ZFq4Y6J2hqWo8VE9b7v4fXFeYrXDe17eoievvdXesfq3OCJtEfV5zE3c7UfH+QCDINJ+mr7D9/h0dcq3RPkJUQxP3y0/nBTboFrQuyW9gOq0U6J2h6cLN6adqPNTJ9bUF23XTV98RntrCfao9OCbJ1ff5qpMROQlvz44NwRbqTjgWFfVLLlwCdEmT6lLfhqTw6sMybppM5+MPYMSsyp/m4BUU9VKsfqzuCOgqCBAgSIEiAIAGCBAgSIEiAIAGCBP8DeJxE0JzV5DUAAAAASUVORK5CYII=" width="50%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot commonness error between objective function and solution matrix</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>spectre<span class="sc">::</span><span class="fu">plot_commonness</span>(<span class="at">x =</span> res, <span class="at">target =</span> objective_matrix)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" width="50%" style="display: block; margin: auto;" /></p>
+<p><code>spectre</code> incorporates functions to allow for easy
+calculation of certain error metrics, namely the mean absolute
+commonness error (<span class="math inline">\(MAE_c\)</span>) and the
+relative commonness error (<span class="math inline">\(\% RCE\)</span>).
+<span class="math inline">\(MAE_c\)</span> is the mean of the absolute
+difference between the solved <em>solution matrix</em> and the
+<em>objective function</em>, whereas <span class="math inline">\(\%
+RCE\)</span> is the <span class="math inline">\(MAE_c\)</span> over the
+absolute commonness from the <em>objective function</em> represented as
+a percentage.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>error_c <span class="ot">&lt;-</span> spectre<span class="sc">::</span><span class="fu">calc_commonness_error</span>(<span class="at">x =</span> res, <span class="at">objective_matrix =</span> objective_matrix)</span></code></pre></div>
+<p>The <em>objective function</em> had a mean commonness of 1.75. The
+mean absolute error between the <em>objective function</em> and the
+solved <em>solution matrix</em> was 0.09. The solution matrix had an
+relative commonness error (RCE) of 4.9%.</p>
+<p>These results can be visualized in two ways using functions built
+into the package. First, one can plot the error of the solved
+<em>solution matrix</em> over time. Second, the commonness error between
+the final solved <em>solution matrix</em> and the <em>objective
+function</em> for each patch can be plotted</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># With an increasing number of iterations, the solution matrix improved</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>spectre<span class="sc">::</span><span class="fu">plot_error</span>(<span class="at">x =</span> res)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" width="50%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># Plot commonness error between objective function and solution matrix</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>spectre<span class="sc">::</span><span class="fu">plot_commonness</span>(<span class="at">x =</span> res, <span class="at">target =</span> objective_matrix)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAABuVBMVEUAAAAAADoAAGYAOjoAOpAAZrY6AAA6ADo6AGY6OpA6kNtEAVRHBVZKDFlNEltQFl9UG2JXH2RaJGddKGlhLW1kMXBmAABmADpmAGZmtv9nNXJqOXVtPXhxQXt0RX53SYB7ToR+Uod/f3+BVYmEWo2HXo+LYpKOZpaQOgCQOjqQOmaQkDqQtpCQ2/+RapiVb5uXc56bd6Gee6Shf6elhKqniK2rjLCukLOxlba1mbm2ZgC2//+4nby7or+/psLCq8XFr8jJtMzLuM7PvNLSwdTWxtjZytvbkDrb///czt7g1OHj2OTm3Ofq4evs5e3w6vHz7/T38/f6+Pv95yX95yv9/f3+6DH+6Dj/tmb/25D/6D3/6UL/6Uf/6kz/6lH/6lX/61n/613/7GL/7GX/7Gn/7W3/7XH/7nX/7nj/7nz/74D/74P/8If/8Iv/8I7/8ZH/8ZX/8pj/8pz/8p//86P/86b/9Kn/9K3/9bD/9bT/9bf/9rr/9r7/98H/98X/98f/+Mv/+c//+dL/+dX/+tn/+tz/+9//++L//Ob//Or//Oz//fD//fP//vf//vr//7b//9v///3///+RoCahAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAIBklEQVR4nO2dB3fbNhRG6TRy06R7u3s3bZPuaXcvp3u3Uvfee++9l13+4pIgKILSYz5BeI7lp++eI9skoEfiHnA9QXCWk/2SbfYOzDoUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIMBQ0FlbBQoCUBCAggAUBKAgAAUBKAhAQQAKAlAQYKwJ67uzkl7x5+DgvflqtrC3fE1rpIxhTdBO93P7vnJp7fgl99JiiwjaXxMqQbWVsgOMdAIKcoLy1V5hZs9ilh20WB5w5ZG3bSUf7Lio+FUvuPKl6rDs5XldKR8Uq7Oq2xV2h9VsCepv3+caV/Wg9d2FgNVi1WIvDxaK43C19NVzPW64vuxyg8W6C9bVrAnathII6pftKyS4ZrcWfCX/lmr9jpVhOCdoaXiytiSo1YNW3aUt2+na2VoofvSr3jFcny9XR1wtyFczJmi5l4eCqota1c7WQijIr8/LfpRVK80KKs8p4SHm74RcO1sL4SEW3i41l0GTgtx9UOskXSwXAlw7WwvFj/LkXL2q9a5HeSMWBfkTSR4KcqsX6nuicKHS11zmy17Uz7Ks6WXGBG0sFLSFBW2elQAKAlAQgIIAFASgIIAFQeFdXy/3SZ+dA5fSaS20ayzlrfRQmBYK0kMGBIXJnfJVZXOyKqXTWmjXqAur9WFaKEwPGRDUSu6USSGXzakzP+FCu0aT9xlNC4XpIQOC6txFv8xdtJ6kRhdGa9S/x9JCQXqIgkpB42mhYXpo5gRNaCWgldyp8q5dgkZqtNY3ipbC3wYENckdfwruFDRao1nfTguF6SEDgsYv812CRmu01odpoSA9ZEHQhkJBAAoCUBCAggDzIKh+cihu/po7wkmZA0F9f0+8vnupHAESiX1Bywt7qh60duJK6zF0MuwLGh5ig0P25WsnxA6tmglBae1/RGZMUPmoOpeCHpUZEzS3PehxmTFBW/gclCboCZkxQeUokC16FUsT9KRMW1D52rr3QWmCnpJJCzrEgKCnZVLNeAwIekYm1YzHgKBnZVLNeAwIek4m1YzHgKDnZVLNeDZPUNRuio8Qnhdk0t04DAh6USbdjcOAoJdk0t04DAh6WSbdjcOAoFdk0t04DAh6VSbdjcOAoNdk0t04DAh6XSbdjcOAoDdk0t04DAh6UybdjcOAoLdk0t04DrAgpb1u8baMUnQDgt6RUYpuQNC7MkrRDQh6T6YublL15WjfbTP+sY+Okjbvy/jSYMjC8jRTnhgQ9IGML20+Lly/YJopTwwIcnwYEhY0HzgXx1r9DZUIDAj6SMaXNkMW3Hjf6F5kQNDHMr50ZMhC9HnIgKBPZHzpyJCFeRT0qYwvbYYslAfb+oWzeJmP2qFdDRO+4zOZuri6Dyo70Wo2xdxvBgR9LhO11W4MCPpCJmqr3RgQ9KVM1Fa7MSDoK5morXZjQNDXMlFb7caAoG9korbajQFB38pEbbUbA4K+k4naajcGBH0vE7XVbgwI+kEmaqvdGBD0o0zUVrvZKEFKuzcJP8koRTcg6GcZpegGBP0ioxTdgKBfZZSiGxD0m4xSdAOCfpdRim5A0B8yStENCPpTRim6AUF/yShFNyDob5m6uBm8MFPfOFRp+mT8I+NLm8ELMzDzQsc2oh6v4p/F/pXxpc0HhzPwrWeNNscLcvwXEhY0Hz3PwPfmNdocL+gxGV/aDF6YgZkXNNocL+hhGV/KHpQ/JONLeQ7KH5Txpc3ghRmYeUGjzfGCHpCpi5vBC5t/H6TR5nhB98tM+G6EAUH3yUz4boQBQffKTPhuhAFB98hM+G5EuiClHZmeu2WUohsQdJeMUnQDgu6UUYpuQNAdMkrRDQi6XUYpugFBt8koRTcg6FYZpegGBN0ioxTdgKCbZZSiGxB0k4xSdAOCbpRRij6lIKWte3bFP4AF3CCjtG8GBF0vo7RvBgRdJ6O0bwYEXSujtG8GBF0jE1ZJmFzAgKCrZYIaKZMLGBB0lUxQI2VyAQOCHFeGjBamTC5gQNAVMkGNlMkFDAi6XMaXlv/PMWVyAQOCLpMJaqRMLmBA0KUyQY2UyQUiBIVv29+kaweaS2TCKgmTCxgQdLGMUnQDgs6XUYpuQNB5MkrRDQg6V0YpugFB58goRTcg6GwZpegGBJ0poxTdgKAzZJSiGxB0uoxSdAOCTpNRio4EKW1mIzlVRim6AUGnyChFNyDoZBml6AYEnSSjFN2AoONklKIbEHSsjFJ0A4KOkVGKbkDQ0TJK0Q0IOkpGKboBQUfKKEU3IOgImXal+lOf6C/ViYKCJ630D4W7UIt8uEyrTt8P6YifXMCAoMNkwirLC3um/ZfqBgQ5Dg0Ryr2V+K+GWxGE8ILiJxcwL6gcvJCzB0EG834OQngr8ZMLzJOgqSYXmBdBU0NBAAoCZLjKfENBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAvwPs8/LmZlT+cYAAAAASUVORK5CYII=" width="50%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
-<p>Fitzpatrick, M.C., Mokany, K., Manion, G., Lisk, M., Ferrier, S., Nieto-Lugilde, D., 2021. gdm: Generalized Dissimilarity Modeling. R package version 1.4.2.2. <a href="https://CRAN.R-project.org/package=gdm" class="uri">https://CRAN.R-project.org/package=gdm</a></p>
-<p>Mokany, K., Harwood, T.D., Overton, J.M.C., Barker, G.M., Ferrier, S., 2011. Combining α - and β -diversity models to fill gaps in our knowledge of biodiversity: Filling gaps in biodiversity knowledge. Ecology Letters 14, 1043–1051. <a href="https://doi.org/10.1111/j.1461-0248.2011.01675.x" class="uri">https://doi.org/10.1111/j.1461-0248.2011.01675.x</a></p>
+<p>Fitzpatrick, M.C., Mokany, K., Manion, G., Lisk, M., Ferrier, S.,
+Nieto-Lugilde, D., 2021. gdm: Generalized Dissimilarity Modeling. R
+package version 1.4.2.2. <a href="https://CRAN.R-project.org/package=gdm" class="uri">https://CRAN.R-project.org/package=gdm</a></p>
+<p>Mokany, K., Harwood, T.D., Overton, J.M.C., Barker, G.M., Ferrier,
+S., 2011. Combining α - and β -diversity models to fill gaps in our
+knowledge of biodiversity: Filling gaps in biodiversity knowledge.
+Ecology Letters 14, 1043–1051. <a href="https://doi.org/10.1111/j.1461-0248.2011.01675.x" class="uri">https://doi.org/10.1111/j.1461-0248.2011.01675.x</a></p>
 </div>
 
 

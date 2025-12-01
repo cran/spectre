@@ -2,11 +2,19 @@
 % Please edit documentation in R/spectre-package.R
 \docType{package}
 \name{spectre}
-\alias{spectre}
 \alias{spectre-package}
+\alias{spectre}
 \title{spectre}
 \description{
 The goal of \code{spectre} is to provide an open source tool capable of predicting regional community composition at fine spatial resolutions using only sparse biological and environmental data.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/r-spatialecology/spectre/}
+  \item Report bugs at \url{https://github.com/r-spatialecology/spectre/issues/}
+}
+
 }
 \author{
 \strong{Maintainer}: Craig Simpkins \email{simpkinscraig063@gmail.com}
@@ -20,3 +28,4 @@ Authors:
 }
 
 }
+\keyword{internal}
